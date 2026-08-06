@@ -3,97 +3,787 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quân Ngô Shop - Gaming Services</title>
+    <title>Quân Ngô Shop - Ultimate Hyper 4K Gaming Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #6366f1;
-            --bg: #030712;
-            --card-bg: #111827;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --accent: #f43f5e;
-            --green: #22c55e;
+            --bg-deep: #010103;
+            --accent-red: #ff0055;
+            --accent-cyan: #00f0ff;
+            --accent-purple: #9d00ff;
+            --accent-green: #00ff66;
+            --card-bg: rgba(8, 8, 16, 0.85);
+            --text-main: #ffffff;
+            --text-muted: #b0b0c2;
         }
 
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); color: var(--text-main); margin: 0; padding: 20px; }
-        .container { max-width: 1100px; margin: 0 auto; }
-        header { text-align: center; padding: 3rem 0; }
-        h1 { font-size: 2.5rem; color: var(--primary); margin-bottom: 0.5rem; }
-        
-        /* Phần cam kết */
-        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-bottom: 3rem; }
-        .feature-box { background: rgba(99, 102, 241, 0.1); padding: 1.5rem; border-radius: 12px; text-align: center; border: 1px solid var(--primary); }
-        .feature-box h4 { margin: 0 0 0.5rem; color: var(--primary); }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+        }
 
-        .category { margin: 3rem 0; }
-        .category-title { font-size: 1.8rem; border-left: 4px solid var(--primary); padding-left: 15px; margin-bottom: 1.5rem; color: #fff; }
-        
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; }
-        
-        .card { background: var(--card-bg); padding: 1.5rem; border-radius: 12px; border: 1px solid #1f2937; transition: 0.3s; display: flex; flex-direction: column; }
-        .card:hover { border-color: var(--primary); transform: translateY(-5px); }
-        .card h3 { color: var(--accent); margin-top: 0; }
-        .price { font-weight: bold; color: var(--green); display: block; margin: 0.5rem 0; }
-        ul { padding-left: 1.2rem; font-size: 0.9rem; color: var(--text-muted); margin-bottom: auto; }
-        li { margin-bottom: 0.3rem; }
-        
-        .btn-buy { margin-top: 15px; background: var(--primary); color: white; text-align: center; padding: 10px; border-radius: 6px; text-decoration: none; font-weight: bold; transition: 0.3s; }
-        .btn-buy:hover { background: #4f46e5; }
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            perspective: 1600px;
+            position: relative;
+            transform: translateZ(0);
+        }
 
-        .footer { text-align: center; margin-top: 5rem; padding: 2rem; background: #111827; border-radius: 12px; }
+        /* --- VIỀN ĐÈN LED ARGB CHẠY QUANH MÀN HÌNH --- */
+        .argb-border-glow {
+            position: fixed;
+            inset: 0;
+            z-index: 999;
+            pointer-events: none;
+            border: 4px solid transparent;
+            background: linear-gradient(60deg, #ff0055, #ff9900, #00ff66, #00f0ff, #9d00ff, #ff0055) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            background-size: 400% 400%;
+            animation: argbBorderAnim 6s linear infinite;
+            opacity: 0.85;
+        }
+
+        @keyframes argbBorderAnim {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- NỀN KHÔNG GIAN 4K ĐỈNH CAO --- */
+        .space-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -5;
+            background: radial-gradient(circle at 50% 50%, #0c021c 0%, #010103 100%);
+        }
+
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(140px);
+            z-index: -4;
+            animation: floatOrb 12s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            mix-blend-mode: screen;
+            will-change: transform;
+        }
+        .orb-1 { width: 650px; height: 650px; background: rgba(255, 0, 85, 0.35); top: -10%; left: -10%; }
+        .orb-2 { width: 700px; height: 700px; background: rgba(0, 240, 255, 0.3); bottom: -10%; right: -10%; animation-delay: -4s; }
+        .orb-3 { width: 550px; height: 550px; background: rgba(157, 0, 255, 0.35); top: 35%; left: 30%; animation-delay: -8s; }
+
+        @keyframes floatOrb {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            50% { transform: translate(100px, 80px) scale(1.2) rotate(180deg); }
+            100% { transform: translate(-80px, -90px) scale(0.85) rotate(360deg); }
+        }
+
+        .cyber-grid-3d {
+            position: fixed;
+            top: 0; left: -50%; width: 200%; height: 200%;
+            background-image: linear-gradient(rgba(0, 240, 255, 0.08) 2px, transparent 2px),
+                              linear-gradient(90deg, rgba(255, 0, 85, 0.08) 2px, transparent 2px);
+            background-size: 80px 80px;
+            transform: rotateX(65deg);
+            z-index: -3;
+            pointer-events: none;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 160px; }
+        }
+
+        /* --- SẤM SÉT 4D PLASMA SIÊU ĐẸP & CHÂN THẬT --- */
+        #lightningCanvas {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2;
+            pointer-events: none;
+            opacity: 0.9;
+        }
+
+        /* --- MƯA SAO BĂNG 4K --- */
+        .stars-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: fallStar linear infinite;
+            will-change: transform, opacity;
+        }
+        @keyframes fallStar {
+            0% { transform: translateY(-10vh) translateX(0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(110vh) translateX(60px); opacity: 0; }
+        }
+
+        /* --- HEADER --- */
+        header {
+            background: rgba(4, 4, 10, 0.88);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-bottom: 2px solid rgba(0, 240, 255, 0.4);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 20px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 35px rgba(0, 240, 255, 0.25);
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--accent-red);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 20px var(--accent-red), 0 0 40px rgba(255, 0, 85, 0.8);
+        }
+        .logo span { color: var(--accent-cyan); text-shadow: 0 0 20px var(--accent-cyan); }
+
+        .header-contact {
+            background: linear-gradient(135deg, #0088cc, var(--accent-cyan));
+            color: white;
+            padding: 14px 28px;
+            border-radius: 16px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 0 35px rgba(0, 240, 255, 0.6);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            will-change: transform;
+        }
+        .header-contact:hover {
+            transform: scale(1.08) translateY(-3px);
+            box-shadow: 0 0 55px rgba(0, 240, 255, 1);
+        }
+
+        /* --- CONTAINER & HERO --- */
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 60px 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .hero h1 {
+            font-size: 58px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            background: linear-gradient(135deg, #ffffff 15%, var(--accent-cyan) 50%, var(--accent-red) 85%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 40px rgba(0, 240, 255, 0.7));
+            margin-bottom: 18px;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 19px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* --- TAB CHUYỂN ĐỔI DANH MỤC CÓ HÌNH ẢNH 4K --- */
+        .tab-menu {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .tab-btn {
+            background: rgba(10, 10, 20, 0.85);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            color: var(--text-muted);
+            padding: 16px 40px;
+            border-radius: 24px;
+            font-size: 19px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            overflow: hidden;
+            position: relative;
+            will-change: transform;
+        }
+
+        .tab-btn img {
+            width: 32px;
+            height: 32px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.4s;
+        }
+
+        .tab-btn:hover {
+            border-color: var(--accent-cyan);
+            color: #fff;
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 20px 40px rgba(0, 240, 255, 0.3);
+        }
+
+        .tab-btn:hover img {
+            transform: rotate(360deg) scale(1.1);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.25), rgba(157, 0, 255, 0.25));
+            border-color: var(--accent-cyan);
+            color: #fff;
+            box-shadow: 0 0 40px rgba(0, 240, 255, 0.6), inset 0 0 20px rgba(0, 240, 255, 0.2);
+            text-shadow: 0 0 12px var(--accent-cyan);
+        }
+
+        /* --- KHU VỰC NỘI DUNG TAB --- */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            border-left: 8px solid var(--accent-cyan);
+            padding-left: 24px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 30px rgba(0, 240, 255, 0.8);
+            background: linear-gradient(90deg, rgba(0, 240, 255, 0.18) 0%, transparent 80%);
+            padding-top: 12px;
+            padding-bottom: 12px;
+            border-radius: 0 14px 14px 0;
+        }
+
+        .section-title img {
+            width: 45px;
+            height: 45px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 2px solid var(--accent-cyan);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+        }
+
+        /* --- THẺ SẢN PHẨM 4K VỚI HIỆU ỨNG VIỀN ARGB CHẠY --- */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 45px;
+            transform-style: preserve-3d;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 2px solid transparent;
+            border-radius: 32px;
+            padding: 42px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.85);
+            transition: all 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            will-change: transform;
+            background-image: linear-gradient(var(--card-bg), var(--card-bg)), linear-gradient(120deg, #ff0055, #00f0ff, #00ff66, #9d00ff, #ff0055);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            background-size: 300% 300%;
+            animation: cardArgvGlow 8s ease infinite;
+        }
+
+        @keyframes cardArgvGlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .card:hover {
+            transform: translateY(-18px) scale(1.04) translateZ(40px) rotateX(4deg) rotateY(-4deg);
+            box-shadow: 0 40px 90px rgba(0, 240, 255, 0.5), 0 0 70px rgba(255, 0, 85, 0.4);
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 26px;
+        }
+
+        .card-title {
+            font-size: 30px;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: 1.5px;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+
+        .card-badge {
+            background: rgba(0, 240, 255, 0.18);
+            color: var(--accent-cyan);
+            font-size: 12px;
+            font-weight: 800;
+            padding: 8px 18px;
+            border-radius: 16px;
+            text-transform: uppercase;
+            border: 1.5px solid rgba(0, 240, 255, 0.5);
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.4);
+        }
+
+        .features-box {
+            background: rgba(0, 0, 0, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 22px;
+            margin-bottom: 26px;
+        }
+
+        .features-box ul {
+            list-style: none;
+            font-size: 15.5px;
+            color: var(--text-muted);
+        }
+
+        .features-box li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .features-box li:last-child {
+            margin-bottom: 0;
+        }
+
+        .features-box li i {
+            color: var(--accent-green);
+            width: 22px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .price-list {
+            border-top: 1.5px solid rgba(255, 255, 255, 0.12);
+            border-bottom: 1.5px solid rgba(255, 255, 255, 0.12);
+            padding: 22px 0;
+            margin-bottom: 30px;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 16.5px;
+        }
+
+        .duration {
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .price {
+            font-weight: 900;
+            color: var(--accent-red);
+            font-size: 20px;
+            text-shadow: 0 0 25px rgba(255, 0, 85, 0.9);
+        }
+
+        .btn-buy {
+            background: linear-gradient(135deg, var(--accent-red), var(--accent-purple));
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-radius: 18px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            box-shadow: 0 15px 40px rgba(255, 0, 85, 0.65);
+            transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            will-change: transform;
+        }
+
+        .btn-buy:hover {
+            background: linear-gradient(135deg, #ff1a6c, #c222ff);
+            box-shadow: 0 22px 60px rgba(255, 0, 85, 0.95);
+            transform: translateY(-5px) scale(1.04);
+        }
+
+        footer {
+            background-color: #000002;
+            border-top: 2px solid rgba(0, 240, 255, 0.4);
+            text-align: center;
+            padding: 70px 20px;
+            color: var(--text-muted);
+            margin-top: 140px;
+            position: relative;
+            z-index: 10;
+        }
+
+        footer a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-weight: 800;
+        }
+
+        @media(max-width: 768px) {
+            .hero h1 { font-size: 38px; }
+            .tab-menu { flex-direction: column; gap: 15px; }
+            .tab-btn { width: 100%; justify-content: center; }
+        }
     </style>
 </head>
 <body>
+
+    <!-- Khung Viền LED ARGB Chạy Đổi Màu Tràn Màn Hình -->
+    <div class="argb-border-glow"></div>
+
+    <div class="space-bg"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    
+    <!-- Canvas Hiệu Ứng Sấm Sét 4D Plasma Chân Thực -->
+    <canvas id="lightningCanvas"></canvas>
+    
+    <div class="stars-container" id="starsContainer"></div>
+
+    <header>
+        <div class="logo">Quân Ngô <span>Shop</span></div>
+        <a href="https://t.me/QuanNgo304" target="_blank" class="header-contact">
+            <i class="fa-brands fa-telegram"></i> @QuanNgo304
+        </a>
+    </header>
+
     <div class="container">
-        <header>
-            <h1>QUÂN NGÔ SHOP</h1>
-            <p style="color: var(--text-muted);">Uy Tín - Nhanh Chóng - Chất Lượng</p>
-        </header>
-
-        <!-- Phần Cam Kết -->
-        <div class="features">
-            <div class="feature-box"><h4>🛡️ UY TÍN HÀNG ĐẦU</h4><p>Được cộng đồng tin tưởng</p></div>
-            <div class="feature-box"><h4>💎 CHẤT LƯỢNG CAO</h4><p>Dịch vụ ổn định, mượt mà</p></div>
-            <div class="feature-box"><h4>⏱️ HỖ TRỢ 24/7</h4><p>Sẵn sàng hỗ trợ mọi lúc</p></div>
+        <div class="hero">
+            <h1>Hệ Thống Hack & Cheat Siêu Cấp 4K</h1>
+            <p>Trải nghiệm công nghệ bảo mật đồ họa không gian 4D đỉnh cao kết hợp hệ thống đèn LED ARGB rực rỡ.</p>
         </div>
 
-        <!-- FREE FIRE -->
-        <section class="category">
-            <h2 class="category-title">🎮 FREE FIRE</h2>
-            <div class="grid">
-                <div class="card"><h3>1. Fluorite</h3><span class="price">80k/ngày - 240k/tuần - 400k/tháng</span><ul><li>ESP: LINE, BOX, HEALTH</li><li>AIMBOT: FOV, SLIENT</li><li>ĐẠN THẲNG, KEO NGƯỢC</li><li>BẮN TỰ ĐỘNG, KEO XA</li><li>ẨN MÀN CÂN KÈO TIỀN</li><li>IOS, ANTIBAN ALL MAP</li></ul><a href="https://t.me/QuanNgo304" class="btn-buy">MUA NGAY</a></div>
-                <div class="card"><h3>2. Migul Lite</h3><span class="price">150k/tuần - 350k/tháng</span><ul><li>ALL ESP, BOX, HEALTH</li><li>AIMBOT FOV, ĐẠN THẲNG</li><li>ẨN MÀN KHI QUAY CHỤP</li><li>IOS, ANTIBAN ALL MAP</li></ul><a href="https://t.me/QuanNgo304" class="btn-buy">MUA NGAY</a></div>
-                <div class="card"><h3>3. Migul Pro</h3><span class="price">250k/tuần - 450k/tháng</span><ul><li>ALL ESP, BOX, HEALTH</li><li>AIMBOT FOV, SILEN, LEGIT</li><li>ĐẠN THẲNG, NẠP/ĐỔI SÚNG NHANH</li><li>TELEPORT 8M, XUYÊN TƯỜNG</li><li>FPS 120, NHẢY DÙ NHANH</li><li>ẨN MÀN, ANTIBAN ALL MAP</li></ul><a href="https://t.me/QuanNgo304" class="btn-buy">MUA NGAY</a></div>
-                <div class="card"><h3>4. MOD SKIN</h3><span class="price">50k/ob</span><ul><li>FULL SKIN QUẦN ÁO, SÚNG</li><li>FULL ĐỒ TRONG FF</li><li>DỄ CÀI, NGƯỜI KHÁC THẤY</li><li>MOD NHƯ ĐỒ THẬT, ANTIBAN</li></ul><a href="https://t.me/QuanNgo304" class="btn-buy">MUA NGAY</a></div>
-                <div class="card"><h3>5. Proxy AIMDRAG</h3><span class="price">70k/vĩnh viễn</span><ul><li>NHẸ TÂM, FIX LỐ ĐẦU</li><li>ANTIBAN CAO</li></ul><a href="https://t.me/QuanNgo304" class="btn-buy">MUA NGAY</a></div>
-                <div class="card"><h3>6. DRIP CLIENT (ADR)</h3><span class="price">120k/tuần - 220k/tháng</span><ul><li>AIM LEGIT, LIA ĐẦU</li><li>ĐẠN THẲNG, SPEED</li><li>FULL ESP, ANTIBAN</li></ul><a href="https://t.me/QuanNgo304" class="btn-buy">MUA NGAY</a></div>
-                <div class="card"><h3>7. DRIP CLIENT PROXY</h3><span class="price">120k/tuần - 220k/tháng</span><ul><li>AIM ĐẦU, CỔ, BODY</li><li>SPEED, ANTIBAN ALL MAP</li></ul><a href="https://t.me/QuanNgo304" class="btn-buy">MUA NGAY</a></div>
-                <div class="card"><h3>8. TIPA SUDO (IOS 16-)</h3><span class="price">250k/tháng</span><ul><li>AIM ĐẦU, SILEN</li><li>FULL ESP, SPEED, ANTIBAN</li></ul><a href="https://t.me/QuanNgo304" class="btn-buy">MUA NGAY</a></div>
-                <div class="card"><h3>9. TIPA IOSVIET (IOS 16-)</h3><span class="price">250k/tháng</span><ul><li>AIMBOT FOV, AIM ĐẦU</li><li>FULL ESP, ANTIBAN</li></ul><a href="https://t.me/QuanNgo304" class="btn-buy">MUA NGAY</a></div>
-                <div class="card"><h3>10. Chứng chỉ Esgin</h3><span class="price">100k/năm</span><ul><li>Ký các tệp của menu</li></ul><a href="https://t.me/QuanNgo304" class="btn-buy">MUA NGAY</a></div>
-            </div>
-        </section>
-
-        <!-- AOV -->
-        <section class="category">
-            <h2 class="category-title">🎮 AOV</h2>
-            <div class="grid">
-                <div class="card"><h3>1. CHEATAOV</h3><span class="price">220k/tháng</span><ul><li>AIM CHIÊU, AIM TỰ ĐỘNG (FLORENTINO, YUE, TULEN, MING)</li><li>TỰ ĐỘNG HỒI MÁU, BỘC PHÁ, TRỪNG TRỊ</li><li>CHỈNH CAM GẦN-XA</li><li>ĐỊNH VỊ, THẤY HỒI CHIÊU</li><li>MAP SÁNG, XUYÊN BỤI</li><li>ĐỔI ĐỒ, FULL SKIN, ANTIBAN</li></ul><a href="https://t.me/QuanNgo304" class="btn-buy">MUA NGAY</a></div>
-            </div>
-        </section>
-
-        <!-- 8BP -->
-        <section class="category">
-            <h2 class="category-title">🎱 8BP</h2>
-            <div class="grid">
-                <div class="card"><h3>1. 8BP FLUORITE</h3><span class="price">350k/tháng</span><ul><li>AUTO ĐÁNH</li><li>HIỂN THỊ ĐƯỜNG BI</li><li>KHÔNG BAN BẢNG XH</li><li>ANTIBAN CAO</li></ul><a href="https://t.me/QuanNgo304" class="btn-buy">MUA NGAY</a></div>
-            </div>
-        </section>
-
-        <div class="footer">
-            <h2>LIÊN HỆ MUA HÀNG</h2>
-            <p>Telegram: <a href="https://t.me/QuanNgo304" style="color:var(--primary); text-decoration: none; font-weight: bold;">@QuanNgo304</a></p>
+        <!-- THANH CHỌN DANH MỤC CÓ HÌNH ẢNH 4K & ICON -->
+        <div class="tab-menu">
+            <button class="tab-btn active" onclick="switchTab('freefire', this)">
+                <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=100&auto=format&fit=crop&q=80" alt="Free Fire"> Free Fire
+            </button>
+            <button class="tab-btn" onclick="switchTab('lienquan', this)">
+                <img src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=100&auto=format&fit=crop&q=80" alt="Liên Quân"> Liên Quân
+            </button>
         </div>
+
+        <!-- MỤC FREE FIRE -->
+        <div id="freefire" class="tab-content active">
+            <div class="section-title">
+                <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=100&auto=format&fit=crop&q=80" alt="Free Fire"> Danh Mục Free Fire
+            </div>
+
+            <div class="grid">
+                <!-- Migul Lite -->
+                <div class="card">
+                    <div>
+                        <div class="card-top">
+                            <div class="card-title">Migul Lite</div>
+                            <span class="card-badge">Phổ Biến</span>
+                        </div>
+                        <div class="features-box">
+                            <ul>
+                                <li><i class="fa-solid fa-crosshairs"></i> Aimbot</li>
+                                <li><i class="fa-solid fa-eye"></i> Esp</li>
+                                <li><i class="fa-solid fa-bolt"></i> Đạn thẳng</li>
+                            </ul>
+                        </div>
+                        <div class="price-list">
+                            <div class="price-row"><span class="duration">1 Tuần</span><span class="price">150.000đ</span></div>
+                            <div class="price-row"><span class="duration">1 Tháng</span><span class="price">350.000đ</span></div>
+                        </div>
+                    </div>
+                    <a href="https://t.me/QuanNgo304" target="_blank" class="btn-buy"><i class="fa-solid fa-cart-shopping"></i> Mua Ngay</a>
+                </div>
+
+                <!-- Migul Pro -->
+                <div class="card">
+                    <div>
+                        <div class="card-top">
+                            <div class="card-title">Migul Pro</div>
+                            <span class="card-badge" style="background: rgba(46, 204, 113, 0.18); color: #2ecc71; border-color: rgba(46, 204, 113, 0.6);">VIP Pro</span>
+                        </div>
+                        <div class="features-box">
+                            <ul>
+                                <li><i class="fa-solid fa-crosshairs"></i> Aimbot, aimsilent</li>
+                                <li><i class="fa-solid fa-eye"></i> Esp</li>
+                                <li><i class="fa-solid fa-bolt"></i> Đạn thẳng, thay đạn nhanh, hồi máu nhanh</li>
+                                <li><i class="fa-solid fa-person-running"></i> Chạy nhanh, bắn xuyên tường</li>
+                                <li><i class="fa-solid fa-shield-halved"></i> <b>Antiban mạnh</b></li>
+                            </ul>
+                        </div>
+                        <div class="price-list">
+                            <div class="price-row"><span class="duration">1 Giờ</span><span class="price">10.000đ</span></div>
+                            <div class="price-row"><span class="duration">1 Ngày</span><span class="price">100.000đ</span></div>
+                            <div class="price-row"><span class="duration">1 Tuần</span><span class="price">215.000đ</span></div>
+                            <div class="price-row"><span class="duration">1 Tháng</span><span class="price">450.000đ</span></div>
+                        </div>
+                    </div>
+                    <a href="https://t.me/QuanNgo304" target="_blank" class="btn-buy"><i class="fa-solid fa-cart-shopping"></i> Mua Ngay</a>
+                </div>
+
+                <!-- Flork -->
+                <div class="card">
+                    <div>
+                        <div class="card-top">
+                            <div class="card-title">Flork</div>
+                            <span class="card-badge" style="background: rgba(241, 196, 15, 0.18); color: #f1c40f; border-color: rgba(241, 196, 15, 0.6);">Đặc Biệt</span>
+                        </div>
+                        <div class="features-box">
+                            <ul>
+                                <li><i class="fa-solid fa-crosshairs"></i> Aimbot, aim silent</li>
+                                <li><i class="fa-solid fa-eye"></i> Định vị esp / nạp đạn nhanh</li>
+                                <li><i class="fa-solid fa-heart-pulse"></i> Hồi máu nhanh / chạy nhanh</li>
+                                <li><i class="fa-solid fa-shield-cat"></i> <b>Antiban mạnh nhất</b></li>
+                            </ul>
+                        </div>
+                        <div class="price-list">
+                            <div class="price-row"><span class="duration">1 Tháng</span><span class="price">200.000đ</span></div>
+                        </div>
+                    </div>
+                    <a href="https://t.me/QuanNgo304" target="_blank" class="btn-buy"><i class="fa-solid fa-cart-shopping"></i> Mua Ngay</a>
+                </div>
+
+                <!-- Proxy iOS -->
+                <div class="card">
+                    <div>
+                        <div class="card-top">
+                            <div class="card-title">Proxy iOS</div>
+                            <span class="card-badge">iOS Only</span>
+                        </div>
+                        <div class="features-box">
+                            <ul>
+                                <li><i class="fa-solid fa-bullseye"></i> Aim cổ / aim đầu / aim body / aim magic</li>
+                            </ul>
+                        </div>
+                        <div class="price-list">
+                            <div class="price-row"><span class="duration">1 Ngày</span><span class="price">50.000đ</span></div>
+                            <div class="price-row"><span class="duration">1 Tuần</span><span class="price">90.000đ</span></div>
+                            <div class="price-row"><span class="duration">1 Tháng</span><span class="price">125.000đ</span></div>
+                            <div class="price-row"><span class="duration">Vĩnh Viễn</span><span class="price">250.000đ</span></div>
+                        </div>
+                    </div>
+                    <a href="https://t.me/QuanNgo304" target="_blank" class="btn-buy"><i class="fa-solid fa-cart-shopping"></i> Mua Ngay</a>
+                </div>
+
+                <!-- Aim Drag -->
+                <div class="card">
+                    <div>
+                        <div class="card-top">
+                            <div class="card-title">Aim Drag</div>
+                            <span class="card-badge">Hỗ Trợ</span>
+                        </div>
+                        <div class="features-box">
+                            <ul>
+                                <li><i class="fa-solid fa-feather"></i> Nhẹ tâm</li>
+                            </ul>
+                        </div>
+                        <div class="price-list">
+                            <div class="price-row"><span class="duration">Vĩnh Viễn</span><span class="price">100.000đ</span></div>
+                        </div>
+                    </div>
+                    <a href="https://t.me/QuanNgo304" target="_blank" class="btn-buy"><i class="fa-solid fa-cart-shopping"></i> Mua Ngay</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- MỤC LIÊN QUÂN -->
+        <div id="lienquan" class="tab-content">
+            <div class="section-title">
+                <img src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=100&auto=format&fit=crop&q=80" alt="Liên Quân"> Danh Mục Liên Quân
+            </div>
+
+            <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(360px, 420px));">
+                <!-- Aovcheat -->
+                <div class="card">
+                    <div>
+                        <div class="card-top">
+                            <div class="card-title">Aovcheat</div>
+                            <span class="card-badge">Liên Quân</span>
+                        </div>
+                        <div class="features-box">
+                            <ul>
+                                <li><i class="fa-solid fa-wand-magic-sparkles"></i> Aim chiêu / bug chiêu</li>
+                                <li><i class="fa-solid fa-map-location-dot"></i> Chỉnh cam / hack map</li>
+                                <li><i class="fa-solid fa-shirt"></i> Mod full skin không trận ảo</li>
+                            </ul>
+                        </div>
+                        <div class="price-list">
+                            <div class="price-row"><span class="duration">1 Tháng</span><span class="price">150.000đ</span></div>
+                        </div>
+                    </div>
+                    <a href="https://t.me/QuanNgo304" target="_blank" class="btn-buy"><i class="fa-solid fa-cart-shopping"></i> Mua Ngay</a>
+                </div>
+            </div>
+        </div>
+
     </div>
+
+    <footer>
+        <p>Liên hệ hỗ trợ và mua hàng qua Telegram: <a href="https://t.me/QuanNgo304" target="_blank">@QuanNgo304</a></p>
+        <p style="margin-top: 10px;">&copy; 2026 Quân Ngô Shop. All rights reserved.</p>
+    </footer>
+
+    <!-- Script Xử Lý Sấm Sét 4D Plasma & LED ARGB -->
+    <script>
+        function switchTab(tabId, btn) {
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(button => button.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        // Tạo Mưa Sao Băng 4K
+        const starsContainer = document.getElementById('starsContainer');
+        for (let i = 0; i < 50; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.top = Math.random() * -100 + 'vh';
+            const size = Math.random() * 3.5 + 1;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            star.style.animationDelay = (Math.random() * 6) + 's';
+            starsContainer.appendChild(star);
+        }
+
+        // Hiệu Ứng Sấm Sét Plasma Đỉnh Cao trên Canvas
+        const canvas = document.getElementById('lightningCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class PlasmaLightning {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.startX = Math.random() * canvas.width;
+                this.startY = 0;
+                this.segments = [];
+                let currentX = this.startX;
+                let currentY = this.startY;
+                
+                let targetY = canvas.height * (0.5 + Math.random() * 0.4);
+                let targetX = currentX + (Math.random() * 400 - 200);
+
+                let steps = Math.floor(Math.random() * 8 + 6);
+                for (let i = 0; i < steps; i++) {
+                    let nextX = currentX + (targetX - currentX) / (steps - i) + (Math.random() * 80 - 40);
+                    let nextY = currentY + (targetY - currentY) / steps;
+                    this.segments.push({x1: currentX, y1: currentY, x2: nextX, y2: nextY});
+                    currentX = nextX;
+                    currentY = nextY;
+                }
+                this.life = 0;
+                this.maxLife = Math.random() * 10 + 4;
+                this.color = Math.random() > 0.4 ? '#00f0ff' : '#ff0055';
+            }
+            draw() {
+                if (this.life > this.maxLife) {
+                    if (Math.random() < 0.15) this.reset();
+                    else return;
+                }
+                
+                ctx.save();
+                ctx.shadowBlur = 35;
+                ctx.shadowColor = this.color;
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 2.5;
+
+                ctx.beginPath();
+                this.segments.forEach(seg => {
+                    ctx.moveTo(seg.x1, seg.y1);
+                    ctx.lineTo(seg.x2, seg.y2);
+                });
+                ctx.stroke();
+
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = 6;
+                ctx.stroke();
+                ctx.restore();
+
+                this.life++;
+            }
+        }
+
+        const plasmaBolts = [new PlasmaLightning(), new PlasmaLightning(), new PlasmaLightning()];
+
+        function animatePlasma() {
+            ctx.fillStyle = 'rgba(1, 1, 3, 0.25)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            plasmaBolts.forEach(bolt => bolt.draw());
+            requestAnimationFrame(animatePlasma);
+        }
+        animatePlasma();
+    </script>
 </body>
 </html>
