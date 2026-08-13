@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quân Ngô Shop - Uy Tín & Chất Lượng</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(17, 24, 39, 0.85);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --accent-glow: rgba(59, 130, 246, 0.5);
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --warning-color: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding: 15px;
+            position: relative;
+        }
+
+        /* HIỆU ỨNG NỀN ĐỘNG SỐNG ĐỘNG (FLOATING AMBIENT LIGHTS) */
+        body::before, body::after {
+            content: '';
+            position: fixed;
+            width: 450px;
+            height: 450px;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: -2;
+            animation: floatOrb 10s ease-in-out infinite alternate;
+        }
+
+        body::before {
+            top: -100px;
+            left: -100px;
+            background: rgba(37, 99, 235, 0.25);
+        }
+
+        body::after {
+            bottom: -100px;
+            right: -100px;
+            background: rgba(147, 51, 234, 0.25);
+            animation-delay: -5s;
+        }
+
+        @keyframes floatOrb {
+            0% { transform: translateY(0) scale(1); }
+            100% { transform: translateY(50px) scale(1.15); }
+        }
+
+        /* VIỀN ĐÈN LED ARGB CHẠY QUANH SHOP */
+        .wrapper-border {
+            position: relative;
+            max-width: 1240px;
+            margin: 0 auto;
+            border-radius: 24px;
+            background: var(--bg-color);
+            padding: 4px;
+            z-index: 1;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+        }
+
+        .wrapper-border::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 26px;
+            background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+            background-size: 400%;
+            z-index: -1;
+            animation: glowingLed 8s linear infinite;
+        }
+
+        @keyframes glowingLed {
+            0% { background-position: 0 0; }
+            50% { background-position: 400% 0; }
+            100% { background-position: 0 0; }
+        }
+
+        .shop-inner {
+            background: #0b0f19;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        header {
+            text-align: center;
+            padding: 55px 20px 25px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .shop-title {
+            font-size: clamp(2.3rem, 5vw, 3.6rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #60a5fa, #c084fc, #f472b6, #60a5fa);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            animation: gradientText 6s ease infinite;
+            letter-spacing: -0.5px;
+        }
+
+        @keyframes gradientText {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .shop-slogan {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-bottom: 25px;
+        }
+
+        .contact-admin-bar {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid var(--border-color);
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .contact-admin-bar:hover {
+            transform: scale(1.05);
+            border-color: rgba(59, 130, 246, 0.6);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .contact-admin-bar a {
+            color: #60a5fa;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        /* NAVIGATION GAME TABS */
+        .game-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .tab-btn {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-btn:hover, .tab-btn.active {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+            box-shadow: 0 0 25px var(--accent-glow);
+            transform: translateY(-3px);
+        }
+
+        .container {
+            max-width: 1160px;
+            margin: 10px auto 70px;
+            padding: 0 20px;
+        }
+
+        .game-section {
+            display: none;
+            animation: fadeInScale 0.4s ease-in-out forwards;
+        }
+
+        .game-section.active {
+            display: block;
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.98) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-header {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #fff;
+        }
+
+        /* PRODUCT GRID & HOVER 3D GLOW */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            backdrop-filter: blur(12px);
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #60a5fa, transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .product-card:hover {
+            border-color: rgba(59, 130, 246, 0.6);
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 0 20px 40px -15px rgba(59, 130, 246, 0.3);
+        }
+
+        .product-card:hover::before {
+            opacity: 1;
+        }
+
+        .product-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .product-name i {
+            color: #60a5fa;
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .product-name i {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        .product-features {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            line-height: 1.6;
+            white-space: pre-line;
+            flex-grow: 1;
+        }
+
+        .product-note {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 3px solid var(--warning-color);
+            padding: 10px 12px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.85rem;
+            color: #fbbf24;
+            margin-bottom: 16px;
+            line-height: 1.4;
+        }
+
+        .product-pricing {
+            border-top: 1px solid var(--border-color);
+            padding-top: 14px;
+            margin-bottom: 18px;
+        }
+
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95rem;
+            margin-bottom: 6px;
+        }
+
+        .price-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .price-label {
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .price-value {
+            color: #34d399;
+            font-weight: 700;
+        }
+
+        /* NÚT MUA NGAY CÓ HIỆU ỨNG PULSE & CLICK RIPPLE */
+        .buy-btn {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            animation: pulseBtn 2s infinite;
+        }
+
+        @keyframes pulseBtn {
+            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.5); }
+            70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+
+        .buy-btn:hover {
+            background: var(--primary-hover);
+            box-shadow: 0 6px 25px rgba(59, 130, 246, 0.7);
+            transform: translateY(-2px);
+            animation: none;
+        }
+
+        .buy-btn:active {
+            transform: scale(0.96);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            background: rgba(11, 15, 25, 0.95);
+        }
+
+        footer span {
+            color: #60a5fa;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrapper-border">
+    <div class="shop-inner">
+
+        <header>
+            <h1 class="shop-title">Quân Ngô Shop</h1>
+            <p class="shop-slogan">Uy tín - Giá rẻ - Hỗ trợ 24/7</p>
+            <div class="contact-admin-bar">
+                <i class="fa-solid fa-headset" style="color: #60a5fa;"></i>
+                <span>Mọi thắc mắc liên hệ Admin:</span>
+                <a href="https://t.me/QuanNgo304">@QuanNgo304</a>
+            </div>
+        </header>
+
+        <div class="game-tabs">
+            <button class="tab-btn active" onclick="switchTab('freefire', event)"><i class="fa-solid fa-fire"></i> Free Fire</button>
+            <button class="tab-btn" onclick="switchTab('lienquan', event)"><i class="fa-solid fa-shield-halved"></i> Liên Quân</button>
+            <button class="tab-btn" onclick="switchTab('bida', event)"><i class="fa-solid fa-circle-dot"></i> 8BP (Bida)</button>
+            <button class="tab-btn" onclick="switchTab('playtogether', event)"><i class="fa-solid fa-house-chimney"></i> Play Together</button>
+        </div>
+
+        <div class="container">
+
+            <!-- MỤC FREE FIRE -->
+            <div id="freefire" class="game-section active">
+                <div class="section-header">
+                    <i class="fa-solid fa-fire text-blue-500"></i> Mục Free Fire
+                </div>
+                <div class="product-grid">
+
+                    <!-- 1. Migul Pro -->
+                    <div class="product-card">
+                        <div>
+                            <div class="product-name"><i class="fa-solid fa-bolt"></i> 1. Migul Pro</div>
+                            <div class="product-features"><b>Chức năng:</b> Aimbot (cổ, đầu, ngực, ngẫu nhiên), Aim silent, Aim legit
+Full ESP (định vị)
+Cực bá với các chức năng như:
+Đạn thẳng, Đổi súng nhanh, Nạp đạn nhanh
+Tele map khi nhảy dù, Kéo địch (bắn xuyên tường), Ẩn màn khi quay chụp (dành cho ae đi kèo tiền)
+Ép 120FPS, Reset Acc khách
+Khi mua sẽ được tặng kèm Setting Antiban + mẹo Log tránh ban</div>
+                            <div class="product-note"><i class="fa-solid fa-triangle-exclamation"></i> Lưu ý: chỉ áp dụng với khách hàng mua Key Tuần và Tháng!!!</div>
+                        </div>
+                        <div>
+                            <div class="product-pricing">
+                                <div class="price-item"><span class="price-label">1 Giờ:</span><span class="price-value">10k</span></div>
+                                <div class="price-item"><span class="price-label">1 Ngày:</span><span class="price-value">100k</span></div>
+                                <div class="price-item"><span class="price-label">1 Tuần:</span><span class="price-value">215k</span></div>
+                                <div class="price-item"><span class="price-label">1 Tháng:</span><span class="price-value">450k</span></div>
+                            </div>
+                            <a href="https://t.me/QuanNgo304" class="buy-btn"><i class="fa-solid fa-cart-shopping"></i> Mua Ngay</a>
+                        </div>
+                    </div>
+
+                    <!-- 2. Migul Lite -->
+                    <div class="product-card">
+                        <div>
+                            <div class="product-name"><i class="fa-solid fa-feather"></i> 2. Migul Lite</div>
+                            <div class="product-features"><b>Chức năng:</b> Aimbot (cổ, đầu, ngực, ngẫu nhiên), Esp (định vị) và 1 số chức năng khác
+Khi mua sẽ được tặng kèm Setting Antiban + mẹo Log tránh ban</div>
+                            <div class="product-note"><i class="fa-solid fa-triangle-exclamation"></i> Lưu ý: chỉ áp dụng với khách hàng mua Key Tuần và Tháng!!!</div>
+                        </div>
+                        <div>
+                            <div class="product-pricing">
+                                <div class="price-item"><span class="price-label">1 Tuần:</span><span class="price-value">150k</span></div>
+                                <div class="price-item"><span class="price-label">1 Tháng:</span><span class="price-value">350k</span></div>
+                            </div>
+                            <a href="https://t.me/QuanNgo304" class="buy-btn"><i class="fa-solid fa-cart-shopping"></i> Mua Ngay</a>
+                        </div>
+                    </div>
+
+                    <!-- 3. IOSViet -->
+                    <div class="product-card">
+                        <div>
+                            <div class="product-name"><i class="fa-solid fa-mobile-screen"></i> 3. IOSViet</div>
+                            <div class="product-features"><b>Chức năng:</b> Aimbot, Aim đầu, Esp</div>
+                            <div class="product-note"><i class="fa-solid fa-triangle-exclamation"></i> Lưu ý đối với iosviet ad chỉ bán key với video cài còn lại ae tự xử lí. Chỉ dành cho ae ios thấp và có Trollstore</div>
+                        </div>
+                        <div>
+                            <div class="product-pricing">
+                                <div class="price-item"><span class="price-label">1 Tháng:</span><span class="price-value">250k</span></div>
+                            </div>
+                            <a href="https://t.me/QuanNgo304" class="buy-btn"><i class="fa-solid fa-cart-shopping"></i> Mua Ngay</a>
+                        </div>
+                    </div>
+
+                    <!-- 4. Sudo FF -->
+                    <div class="product-card">
+                        <div>
+                            <div class="product-name"><i class="fa-solid fa-terminal"></i> 4. Sudo FF</div>
+                            <div class="product-features"><b>Chức năng:</b> Aimbot (cổ, đầu, ngực), Aimsilent
+Full Esp (định vị)
+Đạn thẳng, Hồi máu nhanh, Chạy nhanh
+Ẩn màn khi quay chụp</div>
+                            <div class="product-note"><i class="fa-solid fa-triangle-exclamation"></i> Chỉ dành cho ae ios thấp và có Trollstore</div>
+                        </div>
+                        <div>
+                            <div class="product-pricing">
+                                <div class="price-item"><span class="price-label">1 Tháng:</span><span class="price-value">200k</span></div>
+                            </div>
+                            <a href="https://t.me/QuanNgo304" class="buy-btn"><i class="fa-solid fa-cart-shopping"></i> Mua Ngay</a>
+                        </div>
+                    </div>
+
+                    <!-- 5. Flork -->
+                    <div class="product-card">
+                        <div>
+                            <div class="product-name"><i class="fa-solid fa-ghost"></i> 5. Flork</div>
+                            <div class="product-features"><b>Chức năng:</b> Aimbot (cổ, đầu, ngực), Aimsilen
+Full Esp (định vị)
+Đạn thẳng, Hồi máu nhanh, Chạy nhanh
+Ẩn màn khi quay chụp
+Vì là menu rời nên antiban cao</div>
+                            <div class="product-note"><i class="fa-solid fa-triangle-exclamation"></i> Lưu ý: chỉ dành cho ae ios từ 17.0-18.7.1 và 26.0-26.0.1</div>
+                        </div>
+                        <div>
+                            <div class="product-pricing">
+                                <div class="price-item"><span class="price-label">1 Tháng:</span><span class="price-value">200k</span></div>
+                            </div>
+                            <a href="https://t.me/QuanNgo304" class="buy-btn"><i class="fa-solid fa-cart-shopping"></i> Mua Ngay</a>
+                        </div>
+                    </div>
+
+                    <!-- 6. Proxy(ios) -->
+                    <div class="product-card">
+                        <div>
+                            <div class="product-name"><i class="fa-solid fa-network-wired"></i> 6. Proxy (ios)</div>
+                            <div class="product-features"><b>Chức năng:</b> AIM: AIMBODY, AIMDRAG, AIM NECK, MAGIC AIM, ĐỊNH VỊ, MOD, ANTENA</div>
+                        </div>
+                        <div>
+                            <div class="product-pricing">
+                                <div class="price-item"><span class="price-label">1 Ngày:</span><span class="price-value">50k</span></div>
+                                <div class="price-item"><span class="price-label">1 Tuần:</span><span class="price-value">90k</span></div>
+                                <div class="price-item"><span class="price-label">1 Tháng:</span><span class="price-value">130k</span></div>
+                                <div class="price-item"><span class="price-label">Vĩnh viễn:</span><span class="price-value">250k</span></div>
+                            </div>
+                            <a href="https://t.me/QuanNgo304" class="buy-btn"><i class="fa-solid fa-cart-shopping"></i> Mua Ngay</a>
+                        </div>
+                    </div>
+
+                    <!-- 7. Chứng chỉ Esgin -->
+                    <div class="product-card">
+                        <div>
+                            <div class="product-name"><i class="fa-solid fa-certificate"></i> 7. Chứng chỉ Esgin</div>
+                            <div class="product-features"><b>Chức năng:</b> Dùng để cài các File hack của đa dạng game như Free Fire, Liên Quân, ... Menu Migul, Flork</div>
+                        </div>
+                        <div>
+                            <div class="product-pricing">
+                                <div class="price-item"><span class="price-label">1 Năm:</span><span class="price-value">100k</span></div>
+                            </div>
+                            <a href="https://t.me/QuanNgo304" class="buy-btn"><i class="fa-solid fa-cart-shopping"></i> Mua Ngay</a>
+                        </div>
+                    </div>
+
+                    <!-- 8. Aim drag(nhẹ tâm) -->
+                    <div class="product-card">
+                        <div>
+                            <div class="product-name"><i class="fa-solid fa-crosshairs"></i> 8. Aim drag (nhẹ tâm)</div>
+                            <div class="product-features"><b>Chức năng:</b> Giúp làm nhẹ tâm và đường đạn ổn định hơn</div>
+                            <div class="product-note"><i class="fa-solid fa-triangle-exclamation"></i> Lưu ý: Ae vẫn phải dùng kĩ năng để bắn</div>
+                        </div>
+                        <div>
+                            <div class="product-pricing">
+                                <div class="price-item"><span class="price-label">Vĩnh viễn:</span><span class="price-value">70k</span></div>
+                            </div>
+                            <a href="https://t.me/QuanNgo304" class="buy-btn"><i class="fa-solid fa-cart-shopping"></i> Mua Ngay</a>
+                        </div>
+                    </div>
+
+                    <!-- 9. Drip clien(Adr) -->
+                    <div class="product-card">
+                        <div>
+                            <div class="product-name"><i class="fa-solid fa-robot"></i> 9. Drip clien (Adr)</div>
+                            <div class="product-features"><b>Chức năng:</b> Aimbot, Full Esp
+Chạy nhanh, Aimkill
+Ẩn màn khi quay chụp</div>
+                            <div class="product-note"><i class="fa-solid fa-triangle-exclamation"></i> Lưu ý: Khi mua bản này Ad sẽ chỉ gửi cách cài Full và Key cho ae</div>
+                        </div>
+                        <div>
+                            <div class="product-pricing">
+                                <div class="price-item"><span class="price-label">1 Ngày:</span><span class="price-value">45k</span></div>
+                                <div class="price-item"><span class="price-label">1 Tuần:</span><span class="price-value">90k</span></div>
+                                <div class="price-item"><span class="price-label">1 Tháng:</span><span class="price-value">170k</span></div>
+                            </div>
+                            <a href="https://t.me/QuanNgo304" class="buy-btn"><i class="fa-solid fa-cart-shopping"></i> Mua Ngay</a>
+                        </div>
+                    </div>
+
+                    <!-- 10. Proxy Adr meow -->
+                    <div class="product-card">
+                        <div>
+                            <div class="product-name"><i class="fa-solid fa-cat"></i> 10. Proxy Adr meow</div>
+                            <div class="product-features"><b>Chức năng:</b> Aim cổ, Aim đầu, Aim body, Antena, Mod</div>
+                            <div class="product-note"><i class="fa-solid fa-triangle-exclamation"></i> Lưu ý: Khi mua bản này Ad sẽ chỉ gửi cách cài Full và Key cho ae</div>
+                        </div>
+                        <div>
+                            <div class="product-pricing">
+                                <div class="price-item"><span class="price-label">1 Tuần:</span><span class="price-value">100k</span></div>
+                                <div class="price-item"><span class="price-label">1 Tháng:</span><span class="price-value">200k</span></div>
+                            </div>
+                            <a href="https://t.me/QuanNgo304" class="buy-btn"><i class="fa-solid fa-cart-shopping"></i> Mua Ngay</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- MỤC LIÊN QUÂN -->
+            <div id="lienquan" class="game-section">
+                <div class="section-header">
+                    <i class="fa-solid fa-shield text-blue-500"></i> Mục Liên Quân
+                </div>
+                <div class="product-grid">
+                    <div class="product-card">
+                        <div>
+                            <div class="product-name"><i class="fa-solid fa-chess-knight"></i> 1. Aovcheat</div>
+                            <div class="product-features"><b>Chức năng:</b> Chỉnh cam xa gần, Hiện địch
+Bug chiêu, Aim chiêu
+Mod Full skin không dính trận ảo
+và 1 số chức năng khác</div>
+                        </div>
+                        <div>
+                            <div class="product-pricing">
+                                <div class="price-item"><span class="price-label">1 Tháng:</span><span class="price-value">150k</span></div>
+                            </div>
+                            <a href="https://t.me/QuanNgo304" class="buy-btn"><i class="fa-solid fa-cart-shopping"></i> Mua Ngay</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MỤC 8BP (BIDA) -->
+            <div id="bida" class="game-section">
+                <div class="section-header">
+                    <i class="fa-solid fa-circle-dot text-blue-500"></i> Mục 8BP (Bida)
+                </div>
+                <div class="product-grid">
+                    <div class="product-card">
+                        <div>
+                            <div class="product-name"><i class="fa-solid fa-bowling-ball"></i> 1. 8BP_Flu</div>
+                            <div class="product-features"><b>Chức năng:</b> Vẽ đường đánh, Tự động đánh và 1 số chức năng khác</div>
+                        </div>
+                        <div>
+                            <div class="product-pricing">
+                                <div class="price-item"><span class="price-label">1 Tháng:</span><span class="price-value">340k</span></div>
+                            </div>
+                            <a href="https://t.me/QuanNgo304" class="buy-btn"><i class="fa-solid fa-cart-shopping"></i> Mua Ngay</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MỤC PLAY TOGETHER -->
+            <div id="playtogether" class="game-section">
+                <div class="section-header">
+                    <i class="fa-solid fa-house text-blue-500"></i> Mục Play Together
+                </div>
+                <div class="product-grid">
+                    <div class="product-card">
+                        <div>
+                            <div class="product-name"><i class="fa-solid fa-umbrella-beach"></i> 1. Play together VNG</div>
+                            <div class="product-features"><b>Chức năng:</b> Stream Mode (Ẩn Hack)
+Auto Câu, Bán, Lọc
+Teleport, Esp Đồ, ...</div>
+                        </div>
+                        <div>
+                            <div class="product-pricing">
+                                <div class="price-item"><span class="price-label">1 Tháng:</span><span class="price-value">250k</span></div>
+                            </div>
+                            <a href="https://t.me/QuanNgo304" class="buy-btn"><i class="fa-solid fa-cart-shopping"></i> Mua Ngay</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <footer>
+            <p>&copy; 2026 <span>Quân Ngô Shop</span>. All Rights Reserved. | Uy Tín - Giá Rẻ - Hỗ Trợ 24/7</p>
+        </footer>
+
+    </div>
+</div>
+
+    <script>
+        function switchTab(tabId, event) {
+            const sections = document.querySelectorAll('.game-section');
+            sections.forEach(sec => sec.classList.remove('active'));
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+</body>
+</html>
